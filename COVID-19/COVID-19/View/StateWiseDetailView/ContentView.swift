@@ -13,28 +13,23 @@ struct ContentView: View {
     
     var stateWiseReportArray = [StateWiseReport]()
     var stateWiseDistrictData  = [StateDetails]()
+    var nationalData : NationaReport?
     init() {
-        guard let statsURL = URL(string: "https://api.covid19india.org/csv/latest/state_wise.csv") else {
+        guard let nationalURL = URL(string: "https://api.covid19india.org/data.json") else {
             return
         }
         guard let districtURL = URL(string: "https://api.covid19india.org/v2/state_district_wise.json") else {
             return
         }
-        let rowDelimiter = ","
         do {
-            // CSV Parsing
-            let content = try String(contentsOf: statsURL, encoding: String.Encoding.utf8)
-            let rows : [String] = content.components(separatedBy: CharacterSet.newlines) as [String]
-            for (index,column) in rows.enumerated() {
-                if index%2 == 0 {
-                    let coloumValues = column.components(separatedBy: rowDelimiter) as [String]
-                    stateWiseReportArray.append(StateWiseReport(stateName: coloumValues[0], confirmed: coloumValues[1], recovered: coloumValues[2], deaths: coloumValues[3], active: coloumValues[4], lastUpdatedTime: coloumValues[5], deltaConfirmed: coloumValues[7], deltaRecovered: coloumValues[8], deltaDeaths: coloumValues[9], stateCode: coloumValues[6]))
-                }
-            }
             // JSON Parsing
+            let nationalContent = try Data(contentsOf: nationalURL)
             let districtContent = try Data(contentsOf: districtURL)
             let decoder = JSONDecoder()
             stateWiseDistrictData = try decoder.decode([StateDetails].self, from: districtContent)
+            nationalData = try decoder.decode(NationaReport.self, from: nationalContent)
+            stateWiseReportArray = nationalData!.statewise
+            stateWiseReportArray.insert(StateWiseReport(state: "State", confirmed: "Confirmed", recovered: "Recovered", deaths: "Deceased", active: "Active", lastupdatedtime: "Last Updated", deltaconfirmed: "Delta Confirmed", deltarecovered: "Delta Recovered", deltadeaths: "Delta Deaths", statecode: "State Code", statenotes: "State Notes"), at: 0)
         }
         catch {
             print(error)
@@ -93,17 +88,17 @@ struct TotalStats: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10){
             HStack(alignment: .center) {
-                statsView(statTitle: headerTitle.confirmed, statValue: totalStats.confirmed, deltaStat: totalStats.deltaConfirmed, statColor: Color.red)
+                statsView(statTitle: headerTitle.confirmed, statValue: totalStats.confirmed, deltaStat: totalStats.deltaconfirmed, statColor: Color.red)
                 Spacer()
                 statsView(statTitle: headerTitle.active, statValue: totalStats.active, deltaStat: "", statColor: Color.blue)
                 Spacer()
-                statsView(statTitle: headerTitle.recovered, statValue: totalStats.recovered,deltaStat: totalStats.deltaRecovered, statColor: Color.green)
+                statsView(statTitle: headerTitle.recovered, statValue: totalStats.recovered,deltaStat: totalStats.deltarecovered, statColor: Color.green)
                 Spacer()
-                statsView(statTitle: "Deceased", statValue: totalStats.deaths,deltaStat: totalStats.deltaDeaths, statColor: Color.black)
+                statsView(statTitle: "Deceased", statValue: totalStats.deaths,deltaStat: totalStats.deltadeaths, statColor: Color.black)
             }.padding(.horizontal,10).padding(.top,10)
             HStack(alignment: .center){
                 Spacer()
-                Text("Last Updated : \(totalStats.lastUpdatedTime)").modifier(textModifier(fontSize: 11, fontWeight: .medium, statColor: Color.black))
+                Text("Last Updated : \(totalStats.lastupdatedtime)").modifier(textModifier(fontSize: 11, fontWeight: .medium, statColor: Color.black))
             }.padding(.trailing,10)
             
         }
@@ -173,7 +168,7 @@ struct stateHeader: View {
     var body: some View {
         HStack(alignment: .center, spacing: 5) {
             HStack(alignment: .center){
-                Text(headerTitle.stateName).modifier(textModifier(fontSize: 10, fontWeight: .semibold, statColor: Color.blackPearl)).padding(.leading,5)
+                Text(headerTitle.state).modifier(textModifier(fontSize: 10, fontWeight: .semibold, statColor: Color.blackPearl)).padding(.leading,5)
                 Spacer()
             }.frame(width: UIScreen.main.bounds.width/(25/5) - 8 ).padding(.vertical,5).background(Color.lightgray).cornerRadius(5)//
             headerText(text: headerTitle.confirmed,color: Color.lightgray)
@@ -215,10 +210,10 @@ struct stateStats: View {
         VStack(alignment: .leading, spacing: 10){
             ForEach(2..<stateWiseReportArray.count) { index in
                 if self.seeAllbuttonClicked {
-                    stateDetails(stateDetail: self.stateWiseReportArray[index],districtDetails: self.getstateDistricts(stateCode: self.stateWiseReportArray[index].stateCode))
+                    stateDetails(stateDetail: self.stateWiseReportArray[index],districtDetails: self.getstateDistricts(stateCode: self.stateWiseReportArray[index].statecode))
                 } else {
                     if index < 7{
-                        stateDetails(stateDetail: self.stateWiseReportArray[index],districtDetails: self.getstateDistricts(stateCode: self.stateWiseReportArray[index].stateCode))
+                        stateDetails(stateDetail: self.stateWiseReportArray[index],districtDetails: self.getstateDistricts(stateCode: self.stateWiseReportArray[index].statecode))
                     }
                 }
                 
@@ -247,17 +242,17 @@ struct stateDetails: View {
                 self.navigate = true
             }){
                 HStack(alignment: .center){
-                    Text(stateDetail.stateName).modifier(textModifier(fontSize: 10, fontWeight: .semibold, statColor: Color.blackPearl)).padding(.leading,5)
+                    Text(stateDetail.state).modifier(textModifier(fontSize: 10, fontWeight: .semibold, statColor: Color.blackPearl)).padding(.leading,5)
                     NavigationLink(destination: DistrictStatsView(stateDetail: stateDetail,districtDetails: districtDetails).navigationBarTitle("", displayMode: .inline).navigationBarBackButtonHidden(true).navigationBarHidden(true), isActive: $navigate) {
                         Text("")
                     }
                     Spacer()
                 }.frame(width: UIScreen.main.bounds.width/(25/5) - 8).padding(.vertical,5).background(Color.pearlBlue).cornerRadius(5)
             }
-            headerText(text: stateDetail.confirmed,color: Color.pearlBlue,deltaColor: Color.red,deltaStat: stateDetail.deltaConfirmed)
+            headerText(text: stateDetail.confirmed,color: Color.pearlBlue,deltaColor: Color.red,deltaStat: stateDetail.deltaconfirmed)
             headerText(text: stateDetail.active,color: Color.pearlBlue,deltaColor: nil,deltaStat: "0")
-            headerText(text: stateDetail.recovered,color: Color.pearlBlue,deltaColor: Color.green,deltaStat: stateDetail.deltaRecovered)
-            headerText(text: stateDetail.deaths,color: Color.pearlBlue,deltaColor: Color.black,deltaStat: stateDetail.deltaDeaths)
+            headerText(text: stateDetail.recovered,color: Color.pearlBlue,deltaColor: Color.green,deltaStat: stateDetail.deltarecovered)
+            headerText(text: stateDetail.deaths,color: Color.pearlBlue,deltaColor: Color.black,deltaStat: stateDetail.deltadeaths)
         }
     }
 }

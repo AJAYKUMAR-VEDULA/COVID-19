@@ -19,7 +19,7 @@ struct DistrictStatsView: View {
             VStack(alignment: .leading, spacing: 10){
                 HStack(alignment: .center){
                     Spacer()
-                    Text(stateDetail.stateName).modifier(textModifier(fontSize: 18, fontWeight: .semibold, statColor: Color.blackPearl)).padding(10)
+                    Text(stateDetail.state).modifier(textModifier(fontSize: 18, fontWeight: .semibold, statColor: Color.blackPearl)).padding(10)
                     Spacer()
                 }.background(Color.pearlBlue)
                 HStack(alignment: .center){
@@ -44,7 +44,7 @@ struct DistrictStatsView: View {
                 if showMeter == true {
                     StatsMeter(stateDetail: stateDetail).padding(.horizontal,10)
                 } else {
-                    TotalStats(headerTitle: StateWiseReport(stateName: "", confirmed: "Confirmed", recovered: "Recovered", deaths: "Deceased", active: "Active", lastUpdatedTime: "", deltaConfirmed: "", deltaRecovered: "", deltaDeaths: "", stateCode: ""), totalStats: stateDetail)
+                    TotalStats(headerTitle: StateWiseReport(state: "", confirmed: "Confirmed", recovered: "Recovered", deaths: "Deceased", active: "Active", lastupdatedtime: "", deltaconfirmed: "", deltarecovered: "", deltadeaths: "", statecode: "", statenotes: ""), totalStats: stateDetail)
                 }
                 DistrictWiseReport(districtDetails: districtDetails).padding(.horizontal,10)
                 Spacer()
@@ -58,7 +58,7 @@ struct DistrictWiseReport : View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("District Wise Report").modifier(textModifier(fontSize: 12, fontWeight: .semibold, statColor: Color.deepBlue))
-            stateHeader(headerTitle: StateWiseReport(stateName: "District", confirmed: "Confirmed", recovered: "Recovered", deaths: "Deceased", active: "Active", lastUpdatedTime: "", deltaConfirmed: "", deltaRecovered: "", deltaDeaths: "", stateCode: ""))
+              stateHeader(headerTitle: StateWiseReport(state: "District", confirmed: "Confirmed", recovered: "Recovered", deaths: "Deceased", active: "Active", lastupdatedtime: "", deltaconfirmed: "", deltarecovered: "", deltadeaths: "", statecode: "", statenotes: ""))
             districtStats(districtWiseReportArray: districtDetails)
         }
     }

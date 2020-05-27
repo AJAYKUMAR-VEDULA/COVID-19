@@ -8,15 +8,16 @@
 
 import Foundation
 
-struct StateWiseReport {
-    var stateName : String
+struct StateWiseReport : Decodable {
+    var state : String
     var confirmed : String
     var recovered : String
     var deaths : String
     var active : String
-    var lastUpdatedTime : String
-    var deltaConfirmed : String
-    var deltaRecovered : String
-    var deltaDeaths : String
-    var stateCode : String
+    var lastupdatedtime : String
+    var deltaconfirmed : String
+    var deltarecovered : String
+    var deltadeaths : String
+    var statecode : String
+    var statenotes : String
 }

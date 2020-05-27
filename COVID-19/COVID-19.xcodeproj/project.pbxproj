@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2187FEC62459EAD4002C65EE /* DistrictStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2187FEC52459EAD4002C65EE /* DistrictStatsView.swift */; };
+		218CD46D247E3F28001D2DAA /* NationaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CD46C247E3F28001D2DAA /* NationaReport.swift */; };
+		218CD46F247E3F48001D2DAA /* CasesTimeSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CD46E247E3F48001D2DAA /* CasesTimeSeries.swift */; };
+		218CD471247E3F5D001D2DAA /* Tested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218CD470247E3F5D001D2DAA /* Tested.swift */; };
 		21A9E1DF2458ADC9000871AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9E1DE2458ADC9000871AB /* AppDelegate.swift */; };
 		21A9E1E12458ADC9000871AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9E1E02458ADC9000871AB /* SceneDelegate.swift */; };
 		21A9E1E32458ADC9000871AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9E1E22458ADC9000871AB /* ContentView.swift */; };
@@ -44,6 +47,9 @@
 
 /* Begin PBXFileReference section */
 		2187FEC52459EAD4002C65EE /* DistrictStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictStatsView.swift; sourceTree = "<group>"; };
+		218CD46C247E3F28001D2DAA /* NationaReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationaReport.swift; sourceTree = "<group>"; };
+		218CD46E247E3F48001D2DAA /* CasesTimeSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesTimeSeries.swift; sourceTree = "<group>"; };
+		218CD470247E3F5D001D2DAA /* Tested.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tested.swift; sourceTree = "<group>"; };
 		21A9E1DB2458ADC9000871AB /* COVID-19.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "COVID-19.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21A9E1DE2458ADC9000871AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21A9E1E02458ADC9000871AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +167,9 @@
 				21DE116A245B454E008CEDDC /* StateDetails.swift */,
 				21DE116C245B456B008CEDDC /* District.swift */,
 				21DE116E245B45AF008CEDDC /* Delta.swift */,
+				218CD46C247E3F28001D2DAA /* NationaReport.swift */,
+				218CD46E247E3F48001D2DAA /* CasesTimeSeries.swift */,
+				218CD470247E3F5D001D2DAA /* Tested.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -345,8 +354,11 @@
 				21DE1169245B44F8008CEDDC /* StateWiseReport.swift in Sources */,
 				21DE116B245B454E008CEDDC /* StateDetails.swift in Sources */,
 				21A9E20F2458BD8A000871AB /* Colors.swift in Sources */,
+				218CD471247E3F5D001D2DAA /* Tested.swift in Sources */,
 				21DE1172245B469B008CEDDC /* ViewModifiers.swift in Sources */,
 				21A9E1E12458ADC9000871AB /* SceneDelegate.swift in Sources */,
+				218CD46D247E3F28001D2DAA /* NationaReport.swift in Sources */,
+				218CD46F247E3F48001D2DAA /* CasesTimeSeries.swift in Sources */,
 				2187FEC62459EAD4002C65EE /* DistrictStatsView.swift in Sources */,
 				21A9E1E32458ADC9000871AB /* ContentView.swift in Sources */,
 				21DE116D245B456B008CEDDC /* District.swift in Sources */,
